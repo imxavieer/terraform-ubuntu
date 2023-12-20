@@ -13,7 +13,7 @@ resource "aws_vpc" "prod-vpc" {
 # Create an internet gateway
 resource "aws_internet_gateway" "gw" {
 
-  # Attach the Internet Gateway to the VPC
+  # Attach the internet gateway to the VPC
   vpc_id = aws_vpc.prod-vpc.id
 }
 
@@ -48,7 +48,7 @@ resource "aws_subnet" "subnet-1" {
   }
 }
 
-# Associate subnet created with route table  
+# Associate the subnet with the route table  
 resource "aws_route_table_association" "a" {
   subnet_id      = aws_subnet.subnet-1.id
   route_table_id = aws_route_table.prod-route-table.id
@@ -99,7 +99,7 @@ resource "aws_network_interface" "web-server-nic" {
   security_groups = [aws_security_group.allow_web.id]
 }
 
-# Assign an elastic IP to the network interface created
+# Assign an elastic IP to the network interface
 resource "aws_eip" "one" {
   network_interface         = aws_network_interface.web-server-nic.id
   associate_with_private_ip = "10.0.1.50"
@@ -116,7 +116,7 @@ resource "aws_instance" "web-server-instance" {
   availability_zone = "ap-southeast-1a"
   key_name = "main-key"
 
-  # Associate the network interface previously created to the instance
+  # Associate the network interface to the instance
   network_interface {
     device_index = 0
     network_interface_id = aws_network_interface.web-server-nic.id
